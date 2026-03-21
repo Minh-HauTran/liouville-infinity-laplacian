@@ -1,23 +1,18 @@
-% --- UNIVERSAL PREAMBLE BLOCK ---
-\documentclass[11pt, a4paper]{article}
+\documentclass[11pt]{article}
 
-\usepackage[a4paper, top=2.5cm, bottom=2.5cm, left=2cm, right=2cm]{geometry}
+\usepackage[a4paper, margin=1in]{geometry}
 \usepackage{fontspec}
-
-\usepackage[english, bidi=basic, provide=*]{babel}
-
-\babelprovide[import, onchar=ids fonts]{english}
-
-% Set default/Latin font to Serif in the main (rm) slot for academic style
-\babelfont{rm}{Noto Serif}
-
-% --- MATH AND FORMATTING PACKAGES ---
 \usepackage{amsmath, amssymb, amsthm}
+\usepackage{graphicx}
 \usepackage{booktabs}
 \usepackage{enumitem}
-\usepackage[colorlinks=true, linkcolor=blue, citecolor=red, urlcolor=blue]{hyperref}
+\usepackage{hyperref}
+\usepackage[numbers]{natbib}
+\usepackage{authblk}
 
-% --- THEOREM ENVIRONMENTS ---
+\setmainfont{Noto Serif}
+
+% --- THEOREMS ---
 \theoremstyle{plain}
 \newtheorem{theorem}{Theorem}[section]
 \newtheorem{lemma}[theorem]{Lemma}
@@ -30,457 +25,102 @@
 \theoremstyle{remark}
 \newtheorem{remark}[theorem]{Remark}
 
-% --- DOCUMENT METADATA ---
-\title{\textbf{Liouville-Type Results for Infinity Elliptic Equations with Gradient-Dependent and Hardy-Hénon Nonlinearities}}
+% --- TITLE ---
+\title{Liouville-Type Results for Infinity Elliptic Equations with Gradient-Dependent and Hardy--Hénon Nonlinearities}
 
-\author{
-Tran Minh Hau\\
-University of Information Technology, VNU-HCM\\
-Vietnam Institute for Advanced Study in Mathematics (VIASM)\\
-\texttt{hautm.cs@gmail.com}\\[0.5em]
-\and
-Huynh Trung Hieu\\
-Ho Chi Minh City University of Education \\ \texttt{hthieu.ue@gmail.com} \\
-Vietnam Institute for Advanced Study in Mathematics (VIASM)\\
-\and
-\small{Advisors: Prof. Hai-Long Dao (University of Kansas),
-\\ \small Prof. Dac-Tuan Ngo (CNRS),
-\\ \small Dr. Tuan-Minh Nguyen (Monash University)}
-}
-\date{August 2025}
+\author[1,2]{Tran Minh Hau}
+\author[2,3]{Huynh Trung Hieu}
+
+\affil[1]{University of Information Technology, VNU-HCM, Vietnam}
+\affil[2]{Vietnam Institute for Advanced Study in Mathematics (VIASM)}
+\affil[3]{Ho Chi Minh City University of Education}
+
+\date{}
 
 \begin{document}
 
 \maketitle
 
 \begin{abstract}
-This paper establishes rigorous Liouville-type nonexistence theorems for infinity elliptic equations that couple the unnormalized infinity Laplacian with both gradient-dependent Hamiltonian terms and spatial Hardy-Hénon weights. Working entirely within the framework of viscosity solutions, we identify critical exponents and geometric thresholds that govern the total collapse of the solution space. Furthermore, we provide a theoretical connection demonstrating how the structural rigidity of the infinity Laplacian directly corresponds to the regularization mechanics in distributionally robust machine learning and adversarial neural network training.
+We study Liouville-type nonexistence properties for a class of infinity elliptic equations involving gradient-dependent nonlinearities and Hardy--Hénon weights. 
+Working within the viscosity solution framework, we identify critical exponents associated with the intrinsic cubic structure of the infinity Laplacian and establish conditions under which nontrivial entire solutions cannot exist.
+
+We further analyze the interaction between diffusion, gradient effects, and spatial weights, revealing threshold phenomena in both reaction and gradient growth terms. 
+These results contribute to the qualitative theory of highly degenerate elliptic equations and suggest connections to Lipschitz regularization in modern machine learning.
 \end{abstract}
 
+% =========================
 \section{Introduction}
 
-The rigorous analysis of entire solutions to nonlinear partial differential equations (PDEs) constitutes a fundamental pillar of modern elliptic and parabolic theory. Liouville-type theorems, which assert that solutions satisfying certain growth, sign, or structural conditions must necessarily be trivial or constant, provide essential rigidity properties for global solutions [1]. These theorems not only govern the local analytic behavior and singularity formation within bounded domains through blow-up arguments but also capture the global geometric and scaling features intrinsic to the operators involved [1].
+Liouville-type theorems play a central role in nonlinear elliptic theory, providing rigidity results that preclude the existence of nontrivial entire solutions under suitable structural conditions \cite{gidas1981}. 
 
-Historically, the classification of entire solutions traces its origins to the classical Lane-Emden equation, $-\Delta u = u^p$ for $u > 0$ in $\mathbb{R}^n$. In their celebrated work, Gidas and Spruck established that for $1 < p < p_S$, where $p_S = (n+2)/(n-2)$ is the critical Sobolev exponent (for $n \ge 3$), no positive entire classical solutions exist [1]. This foundational framework was subsequently extended to spatially heterogeneous models, most prominently the Hardy-Hénon equation $-\Delta u = |x|^a u^p$. The introduction of the spatial weight $|x|^a$---acting as a singular potential when $a < 0$ (Hardy-type) and a growing source when $a > 0$ (Hénon-type)---fundamentally alters the Pohozaev identity, shifting the critical threshold to the Hardy-Sobolev exponent $p^*(n,a) = (n+2+2a)/(n-2)$ [2, 3, 4].
-
-While the classical Laplacian and its divergence-form quasilinear generalizations (such as the $p$-Laplacian) have been extensively mapped [2], contemporary mathematical focus has increasingly shifted toward highly degenerate, non-divergence form operators. Foremost among these is the infinity Laplacian, defined for a suitably smooth function $u$ as:
+The classical Lane--Emden equation
 \[
-\Delta_\infty u = \langle D^2 u \nabla u, \nabla u \rangle = \sum_{i=1}^n \sum_{j=1}^n \frac{\partial u}{\partial x_i} \frac{\partial^2 u}{\partial x_i \partial x_j} \frac{\partial u}{\partial x_j}
+-\Delta u = u^p \quad \text{in } \mathbb{R}^n
 \]
-Introduced by G. Aronsson in the 1960s, the infinity Laplacian arises naturally as the Euler-Lagrange equation for the absolute minimization of the $L^\infty$ norm of the gradient, giving birth to the theory of Absolutely Minimizing Lipschitz Extensions (AMLE) [5]. Because $\Delta_\infty u$ vanishes wherever the gradient $\nabla u$ vanishes, the operator is non-uniformly elliptic and highly degenerate, precluding the existence of classical $C^2$ solutions in general and requiring the modern framework of viscosity solutions [6, 7, 8]. 
+has been extensively studied, with sharp nonexistence thresholds depending on the dimension. Extensions to weighted models, such as the Hardy--Hénon equation, further reveal the influence of spatial heterogeneity on critical exponents \cite{le2025}.
 
-Recently, the literature has seen a surge of interest in perturbing these degenerate operators with lower-order gradient-dependent terms, creating equations of Hamilton-Jacobi-Bellman type [9, 10]. In this report, we establish new, exhaustive Liouville-type nonexistence theorems for infinity elliptic equations that couple the unnormalized infinity Laplacian with both gradient-dependent Hamiltonian terms and spatial Hardy-Hénon weights. Specifically, we investigate equations of the form:
+In contrast, the infinity Laplacian
 \[
--\Delta_\infty u + H(x, u, \nabla u) = \lambda |x|^a u^p \quad \text{in } \mathbb{R}^n
+\Delta_\infty u = \langle D^2 u \nabla u, \nabla u \rangle
 \]
+introduces strong degeneracy and requires analysis in the viscosity sense \cite{crandall1992}. This operator arises naturally in the theory of absolutely minimizing Lipschitz extensions \cite{aronsson1967}.
 
-\subsection{Core Research Objectives and Novel Contributions}
-
-The primary objective of this research is to generalize the Liouville theory for the standard infinity Laplacian to environments featuring complex, competing nonlinearities [11, 12]. The inclusion of a gradient term $H(x,u,\nabla u) = c|\nabla u|^q$ induces a delicate mathematical tension: the highly degenerate ``diffusion'' of the infinity Laplacian competes directly with the first-order gradient absorption or source, while the Hardy-Hénon weight $|x|^a$ distorts the spatial homogeneity [10, 13]. 
-
-This report provides the following original mathematical contributions:
-\begin{itemize}
-    \item \textbf{Derivation of the Critical Exponent:} We formally identify the critical exponent $p^*(n,a)$ for the unperturbed Hardy-Hénon infinity Laplace equation. We demonstrate that for $p < 3$, scale-invariant decaying solutions are geometrically obstructed, establishing a sharp nonexistence regime independent of the spatial dimension $n$.
-    \item \textbf{Gradient Domination Thresholds:} We rigorously analyze the gradient growth condition $H(u, \nabla u) \sim |\nabla u|^q$. By deploying modified Hadamard-type test functions, we identify the critical exponent $q_c = 3$. We prove that when $q > 3$, the gradient penalty asymptotically dominates the diffusion, enforcing a total collapse of the solution space to the trivial solution $u \equiv 0$ under minimal decay assumptions [10, 13].
-    \item \textbf{Weighted Comparison Principles:} We expand the viscosity solution framework, introducing new weighted comparison methodologies capable of handling the singular/degenerate interplay between $|x|^a$ and $\Delta_\infty u$ [12, 14].
-    \item \textbf{Interdisciplinary Theoretical Bridge:} We provide a deep, rigorous theoretical discussion connecting the fundamental mechanics of the infinity Laplacian (Lipschitz regularization) to contemporary challenges in distributionally robust machine learning [15, 16]. We mathematically demonstrate how adversarial training techniques inherently mimic the gradient constraints of the infinity Laplacian, framing adversarial robustness as a discretized PDE obstacle problem [16, 17].
-\end{itemize}
-
-\section{Mathematical Preliminaries and Viscosity Framework}
-
-To ensure the utmost rigor, we must firmly establish the functional analytic setting. Due to the severe degeneracy of the infinity Laplacian, classical Sobolev space (distributional) weak solutions are insufficient; the operator cannot be written in divergence form [7, 9]. Consequently, all differential inequalities must be interpreted in the viscosity sense of Crandall, Ishii, and Lions [7, 8].
-
-\subsection{The Infinity Laplacian}
-
-The operator $\Delta_\infty$ maps $C^2(\mathbb{R}^n)$ functions to continuous functions. Its geometric intuition is best understood by evaluating the second derivative in the direction of the gradient. If $\eta = \frac{\nabla u}{|\nabla u|}$ is the unit vector field aligned with the gradient, the infinity Laplacian can be factored as:
+In this work, we study equations of the form
 \[
-\Delta_\infty u = |\nabla u|^2 \langle D^2 u \, \eta, \eta \rangle = |\nabla u|^2 \Delta_\infty^N u
+-\Delta_\infty u + c|\nabla u|^q = \lambda |x|^a u^p \quad \text{in } \mathbb{R}^n,
 \]
-where $\Delta_\infty^N u = \langle D^2 u \, \eta, \eta \rangle$ is the \textit{normalized} infinity Laplacian [7, 18]. This normalized operator represents the pure second directional derivative along gradient flow lines. In this report, we strictly analyze the \textit{unnormalized} version, $\Delta_\infty u$, which is a highly nonlinear operator that scales cubically with respect to the function $u$. Specifically, for any constant $\tau > 0$, $\Delta_\infty (\tau u) = \tau^3 \Delta_\infty u$. This cubic homogeneity is the absolute defining characteristic that dictates the scaling symmetries and the critical exponents derived in Section 3 [9, 11].
+focusing on Liouville-type nonexistence results under combined gradient and weighted nonlinear effects.
 
-\subsection{Formal Definitions of Viscosity Solutions}
+% =========================
+\section{Preliminaries}
 
-Let $\Omega \subseteq \mathbb{R}^n$ be an open domain. For a locally bounded function $u: \Omega \to \mathbb{R}$, we define its upper semicontinuous (USC) and lower semicontinuous (LSC) envelopes as $u^*(x) = \limsup_{y \to x} u(y)$ and $u_*(x) = \liminf_{y \to x} u(y)$, respectively. 
+We work within the framework of viscosity solutions as developed by Crandall, Ishii, and Lions \cite{crandall1992}. 
 
-\begin{definition}[Viscosity Subsolutions and Supersolutions]
-Let $F: \Omega \times \mathbb{R} \times \mathbb{R}^n \times \mathbb{S}^n \to \mathbb{R}$ be a continuous, proper elliptic PDE operator, where $\mathbb{S}^n$ is the space of symmetric $n \times n$ matrices. We consider the equation $F(x, u, \nabla u, D^2 u) = 0$. In our context, $F(x, u, p, X) = -\langle X p, p \rangle + c|p|^q - \lambda |x|^a u^p$.
-\begin{enumerate}
-    \item An upper semicontinuous function $u: \Omega \to \mathbb{R}$ is a \textbf{viscosity subsolution} to $F=0$ if, for every $x_0 \in \Omega$ and every test function $\phi \in C^2(\Omega)$ such that $u - \phi$ exhibits a local maximum at $x_0$, the following differential inequality holds evaluated at $x_0$:
-    \[
-    -\langle D^2 \phi(x_0) \nabla \phi(x_0), \nabla \phi(x_0) \rangle + c|\nabla \phi(x_0)|^q - \lambda |x_0|^a (u(x_0))^p \le 0
-    \]
-    \item A lower semicontinuous function $v: \Omega \to \mathbb{R}$ is a \textbf{viscosity supersolution} to $F=0$ if, for every $x_0 \in \Omega$ and every test function $\psi \in C^2(\Omega)$ such that $v - \psi$ exhibits a local minimum at $x_0$, we have:
-    \[
-    -\langle D^2 \psi(x_0) \nabla \psi(x_0), \nabla \psi(x_0) \rangle + c|\nabla \psi(x_0)|^q - \lambda |x_0|^a (v(x_0))^p \ge 0
-    \]
-    \item A continuous function $u$ is a \textbf{viscosity solution} if it is simultaneously a subsolution and a supersolution [7, 8].
-\end{enumerate}
+\begin{definition}
+A continuous function $u$ is a viscosity solution if it satisfies the differential inequality in the sense of test functions.
 \end{definition}
 
-\subsection{The Semi-Jet Formulation}
-
-For advanced comparison principles, it is often necessary to bypass test functions and work directly with second-order superjets and subjets. 
-
-\begin{definition}[Second-Order Jets]
-The second-order superjet $J^{2,+} u(x_0)$ for a USC function $u$ at $x_0$ is defined as the set of pairs $(p, X) \in \mathbb{R}^n \times \mathbb{S}^n$ such that:
-\[
-u(x) \le u(x_0) + \langle p, x - x_0 \rangle + \frac{1}{2} \langle X(x - x_0), x - x_0 \rangle + o(|x - x_0|^2) \quad \text{as } x \to x_0
-\]
-Similarly, the subjet $J^{2,-} u(x_0)$ is the set of $(p, X)$ satisfying the reverse inequality. We denote their closures by $\bar{J}^{2,+} u(x_0)$ and $\bar{J}^{2,-} u(x_0)$ [7]. A function is a viscosity subsolution if $F(x, u(x), p, X) \le 0$ for all $(p, X) \in \bar{J}^{2,+} u(x)$.
-\end{definition}
-
-\subsection{The Comparison Principle}
-
-A foundational tool for deriving Liouville theorems is the Comparison Principle, which asserts that if a subsolution lies beneath a supersolution on the boundary of a domain, it must lie beneath it throughout the interior [9, 14]. 
-
-\begin{lemma}[Weighted Comparison Principle]
-Let $\Omega \subset \mathbb{R}^n$ be a bounded open set. Let $u$ be a USC viscosity subsolution and $v$ be an LSC viscosity supersolution of $-\Delta_\infty w + c|\nabla w|^q = \lambda |x|^a w^p$ in $\Omega$. If $u \le v$ on $\partial \Omega$, then $u \le v$ in $\Omega$, provided that $c \ge 0$, $\lambda > 0$, and the functions are strictly positive.
-\end{lemma}
-
-\begin{proof}[Proof Sketch]
-The proof employs the standard doubling of variables technique. We define $\Phi(x, y) = u(x) - v(y) - \frac{\alpha}{2}|x - y|^2$ for a large parameter $\alpha > 0$. If $\max_{\Omega} (u - v) > 0$, the maximum of $\Phi$ over $\bar{\Omega} \times \bar{\Omega}$ occurs at some interior point $(x_\alpha, y_\alpha)$. Applying the Theorem of Sums by Crandall, Ishii, and Lions yields matrices $X, Y \in \mathbb{S}^n$ such that $(\alpha(x_\alpha - y_\alpha), X) \in \bar{J}^{2,+} u(x_\alpha)$ and $(\alpha(x_\alpha - y_\alpha), Y) \in \bar{J}^{2,-} v(y_\alpha)$, with the matrix inequality $X \le Y$. Substituting these into the respective PDE inequalities for $u$ and $v$ and utilizing the ellipticity of the operators generates a contradiction as $\alpha \to \infty$, thus forcing $u \le v$ [12, 14].
-\end{proof}
-
+% =========================
 \section{Main Results}
 
-We now formally state the primary mathematical theorems established in this report. Our results are categorized by the presence and orientation of the gradient Hamiltonian term $c|\nabla u|^q$. 
-
-\subsection{Unperturbed Hardy-Hénon Infinity Laplacian}
-
-We first consider the baseline equation where gradient absorption is absent ($c = 0$), isolating the pure interaction between the infinity diffusion and the Hardy-Hénon spatial weight.
-
-\begin{theorem}[Liouville-Type Nonexistence for Pure Hardy-Hénon]
-Let $u \in C(\mathbb{R}^n)$ be a non-negative viscosity solution to the equation:
+\begin{theorem}
+Let $u$ be a non-negative viscosity solution of
 \[
--\Delta_\infty u = \lambda |x|^a u^p \quad \text{in } \mathbb{R}^n
+-\Delta_\infty u = \lambda |x|^a u^p.
 \]
-where $\lambda > 0$ and the spatial weight parameter $a > -4$. If the reaction exponent $p$ satisfies:
-\[
-1 < p \le 3
-\]
-then the only bounded, non-negative viscosity solution is the trivial solution $u \equiv 0$.
+If $1 < p \le 3$, then $u \equiv 0$.
 \end{theorem}
 
-\begin{remark}
-This theorem formally identifies $p^*(n,a) = 3$ as the critical exponent for scale-invariant nonexistence. Unlike the classical Laplacian (where the critical exponent depends inherently on the dimension $n$), the highly localized geometric nature of the unnormalized infinity Laplacian restricts its scaling purely to the cubic homogeneity of the operator itself [11]. 
-
-\begin{table}[h]
-\centering
-\begin{tabular}{llcl}
-\toprule
-Operator Type & Equation & Critical Exponent $p^*$ & Dimension Dependent? \\
-\midrule
-Standard Laplacian & $-\Delta u = u^p$ & $\frac{n+2}{n-2}$ & Yes \\
-$m$-Laplacian & $-\Delta_m u = u^p$ & $\frac{n(m-1)+m}{n-m}$ & Yes \\
-Normalized $\infty$-Laplacian & $-\Delta_\infty^N u = u^p$ & $1$ & No \\
-Unnormalized $\infty$-Laplacian& $-\Delta_\infty u = u^p$ & $3$ & No \\
-\bottomrule
-\end{tabular}
-\end{table}
-\end{remark}
-
-\subsection{Gradient Dominated Hamilton-Jacobi Perturbations}
-
-We next introduce the gradient Hamiltonian $H(x, u, \nabla u) = c|\nabla u|^q$. When $c > 0$, the term acts as an absorption or penalty on steep gradients, severely restricting the geometry of supersolutions [10].
-
-\begin{theorem}[Gradient Domination Result]
-Let $u$ be a non-negative viscosity supersolution to the equation:
+\begin{theorem}
+Let $u$ satisfy
 \[
--\Delta_\infty u + c|\nabla u|^q \ge \lambda |x|^a u^p \quad \text{in } \mathbb{R}^n
+-\Delta_\infty u + c|\nabla u|^q \ge \lambda |x|^a u^p.
 \]
-Assume $c > 0$ and $\lambda > 0$. The behavior of the system is strictly bifurcated by the critical gradient growth exponent $q_c = 3$:
-\begin{enumerate}
-    \item \textbf{Diffusion Dominated ($q < 3$):} The far-field behavior is controlled by the infinity Laplacian. The triviality condition is governed by the Hardy-Hénon reaction, requiring $p \le 3$.
-    \item \textbf{Gradient Dominated ($q > 3$):} The gradient penalty dominates spatial diffusion at infinity. If the reaction exponent $p < q$, any non-negative viscosity solution satisfying a mild asymptotic decay bound $u(x) = o(|x|^{-\beta})$ for $\beta(a,p,q) > 0$ must be identically zero [13, 19].
-\end{enumerate}
+If $q > 3$ and $p < q$, then $u \equiv 0$ under suitable decay conditions.
 \end{theorem}
 
-\subsection{Gradient Source Perturbations}
+% =========================
+\section{Proofs of the Main Results}
 
-When the Hamiltonian acts as a source ($c < 0$), the dynamics change significantly. The operator becomes $-\Delta_\infty u - |c||\nabla u|^q$.
+(Keep your original proofs here — chỉ cần thay citation sang \cite{})
 
-\begin{theorem}[General Nonexistence with Gradient Source]
-Consider the elliptic inequality with a gradient source:
-\[
-\Delta_\infty u + |c| |\nabla u|^q + \lambda |x|^a u^p \le 0 \quad \text{in } \mathbb{R}^n
-\]
-For any $1 < p \le 3$ and any $q > 0$, there are no positive viscosity subsolutions. Any non-negative subsolution satisfying $u(x) \to 0$ as $|x| \to \infty$ is identically zero [20, 21].
-\end{theorem}
+% =========================
+\section{Connections to Machine Learning}
 
-\section{Rigorous Proofs of the Main Theorems}
+The infinity Laplacian is closely related to Lipschitz regularization and has connections to robust optimization and adversarial learning \cite{finlay2018, gao2022}. 
 
-The proofs combine radial symmetric reductions, deep scaling arguments, and non-local test function methodologies unique to viscosity solutions [2, 11].
+These connections suggest that gradient constraints in PDEs may provide theoretical insight into stability in machine learning models.
 
-\subsection{Proof of Theorem 3.1: Scaling Analysis and Radial Subsolutions}
-
-\begin{proof}
-We proceed by contradiction. Assume there exists a non-trivial, non-negative viscosity solution $u \not\equiv 0$. By the Strong Maximum Principle extended to the infinity Laplacian [9, 20], if $u \ge 0$ and is not identically zero, then $u > 0$ strictly everywhere in $\mathbb{R}^n \setminus \{0\}$.
-
-\textbf{Step 1: Continuous Scaling Group.}
-We seek to determine the intrinsic homogeneity of the equation $-\Delta_\infty u = \lambda |x|^a u^p$. Introduce the dilation operator $u_\tau(x) = \tau^\theta u(\tau x)$ for $\tau > 0$ and $\theta \in \mathbb{R}$. Taking derivatives yields:
-\[
-\nabla u_\tau(x) = \tau^{\theta+1} \nabla u(\tau x)
-\]
-\[
-D^2 u_\tau(x) = \tau^{\theta+2} D^2 u(\tau x)
-\]
-Substituting these into the infinity Laplacian, which is cubic in the gradient and second derivatives ($|\nabla u|^2 |D^2 u|$), we obtain:
-\[
-\Delta_\infty u_\tau(x) = \tau^{2(\theta+1)} \tau^{\theta+2} (\Delta_\infty u)(\tau x) = \tau^{3\theta+4} (\Delta_\infty u)(\tau x)
-\]
-Simultaneously, the Hardy-Hénon right-hand side scales as:
-\[
-\lambda |x|^a (u_\tau(x))^p = \lambda \tau^{-a + p\theta} |\tau x|^a (u(\tau x))^p
-\]
-For the PDE to be perfectly invariant under this continuous scaling group, the exponents of $\tau$ must balance:
-\[
-3\theta + 4 = -a + p\theta \implies \theta(p - 3) = a + 4
-\]
-If we seek entire solutions that decay to zero at spatial infinity ($u(x) \to 0$ as $|x| \to \infty$), we mathematically require the scaling parameter $\theta < 0$. Assuming a non-degenerate spatial weight condition $a > -4$, this immediately enforces the fundamental inequality:
-\[
-p > 3
-\]
-If $p < 3$, scale-invariant decaying solutions are algebraically impossible. 
-
-\textbf{Step 2: Radial Obstruction via ODE Reduction.}
-To rigorously preclude all viscosity supersolutions (not just scale-invariant ones), we attempt to construct a spherically symmetric barrier function $v(x) = v(r)$, where $r = |x| > 0$. For purely radial functions, the multi-dimensional infinity Laplacian collapses to an elegant, one-dimensional ordinary differential equation [5]. The spatial derivatives are:
-\[
-\nabla v = v'(r) \frac{x}{r}
-\]
-\[
-D^2 v = v''(r) \frac{x \otimes x}{r^2} + \frac{v'(r)}{r} \left( I - \frac{x \otimes x}{r^2} \right)
-\]
-Because the infinity Laplacian evaluates the second derivative exclusively in the direction of the gradient $\frac{x}{r}$, the tangential components vanish entirely, leaving:
-\[
-\Delta_\infty v = \langle D^2 v \nabla v, \nabla v \rangle = (v'(r))^2 v''(r)
-\]
-Thus, the differential inequality for a radial supersolution $v(r)$ becomes:
-\[
--(v'(r))^2 v''(r) \ge \lambda r^a (v(r))^p
-\]
-
-\textbf{Step 3: Contradiction via Asymptotic Profiling.}
-Assume the supersolution decays at infinity following a generic power law: $v(r) = A r^{-\beta}$ with $A > 0$ and $\beta > 0$. We compute the radial derivatives:
-\[
-v'(r) = -A \beta r^{-\beta - 1}
-\]
-\[
-v''(r) = A \beta (\beta + 1) r^{-\beta - 2}
-\]
-Substituting these back into the collapsed infinity Laplacian yields:
-\[
-\Delta_\infty v = (-A \beta r^{-\beta - 1})^2 \left( A \beta (\beta + 1) r^{-\beta - 2} \right) = A^3 \beta^3 (\beta + 1) r^{-3\beta - 4}
-\]
-Thus, the left-hand side of our supersolution inequality evaluates to:
-\[
--\Delta_\infty v = - A^3 \beta^3 (\beta + 1) r^{-3\beta - 4}
-\]
-Because $A > 0$ and $\beta > 0$, this quantity is strictly, unequivocally negative for all $r > 0$. However, the right-hand side of the inequality is $\lambda r^a (A r^{-\beta})^p$, which is strictly positive because $\lambda > 0$, $r > 0$, and $A > 0$. 
-This creates a fatal contradiction:
-\[
-\text{Strictly Negative Quantity} \ge \text{Strictly Positive Quantity}
-\]
-Consequently, no positive, decaying radial supersolution can exist. 
-
-\textbf{Step 4: Extension to General Viscosity Solutions.}
-To map this failure of radial barriers to general, non-symmetric viscosity solutions, we define the spherical infimum function $m(r) = \inf_{|x|=r} u(x)$. By the geometric properties of viscosity solutions, the infimum of a supersolution over symmetric domains inherits the supersolution property [11, 12]. Therefore, $m(r)$ itself must act as a one-dimensional viscosity supersolution to the radial ODE. Because we proved in Step 3 that such radial supersolutions cannot exist and decay to zero, $u(x)$ cannot decay to zero. 
-
-If $u(x)$ does not decay to zero but remains bounded (i.e., $\liminf_{|x| \to \infty} u(x) = \delta > 0$), we encounter an alternative contradiction. As $|x| \to \infty$, the source term $\lambda |x|^a u^p \ge \lambda |x|^a \delta^p \to \infty$ (for $a \ge 0$). This forces the concavity of the function (via $-\Delta_\infty u$) to become infinitely large, which is incompatible with $u$ remaining bounded from below. Hence, $u$ must be the trivial solution $u \equiv 0$.
-\end{proof}
-
-\subsection{Proof of Theorem 3.2: Gradient Domination via Test Functions}
-
-\begin{proof}
-We analyze the gradient-absorbed equation $-\Delta_\infty u + c|\nabla u|^q \ge \lambda |x|^a u^p$ for $c > 0$ and $q > 3$.
-
-\textbf{Step 1: The Hadamard-Type Three-Sphere Cutoff.}
-To isolate the behavior at spatial infinity, we employ the test function method tailored for fully nonlinear viscosity PDEs [22]. Let $R > 0$ be large. We define a smooth cut-off function $\Phi \in C_0^\infty(\mathbb{R}^n)$ such that:
-\begin{itemize}
-    \item $0 \le \Phi(z) \le 1$ for all $z \in \mathbb{R}^n$.
-    \item $\Phi(z) \equiv 1$ on the ball $B_1(0)$.
-    \item $\Phi(z) \equiv 0$ outside the ball $B_2(0)$.
-\end{itemize}
-We rescale this function to an annulus of radius $R$: $\phi_R(x) = \Phi(x/R)^k$, where $k > \max(3, q)$ is a sufficiently large integer exponent chosen to absorb derivative penalties. 
-
-\textbf{Step 2: Viscosity Calculus at the Supremum.}
-We evaluate the maximum of the product $u(x) \phi_R(x)$ over the support annulus $B_{2R} \setminus B_R$. Let this maximum occur at a point $x_R$. Because $x_R$ is a local maximum, standard calculus ensures $\nabla(u \phi_R)(x_R) = 0$, which yields the relation:
-\[
-\nabla u(x_R) = - u(x_R) \frac{\nabla \phi_R(x_R)}{\phi_R(x_R)} = -k u(x_R) \frac{\nabla \Phi(x_R / R)}{R \Phi(x_R / R)}
-\]
-This provides an explicit bound for the gradient term at the critical point $x_R$:
-\[
-|\nabla u(x_R)|^q = k^q u(x_R)^q \frac{|\nabla \Phi|^q}{R^q \Phi^q}
-\]
-Because $\Phi$ is fixed and smooth, $|\nabla \Phi|$ is bounded by some constant $C_0$. Thus, the gradient Hamiltonian scales asymptotically as $R^{-q} u^q$ [10, 13].
-
-Simultaneously, evaluating the second derivative condition for the local maximum reveals that the infinity Laplacian diffusion term $\Delta_\infty u(x_R)$ is bounded above by a term that scales precisely as $R^{-4} u(x_R)^3$ [23].
-
-\textbf{Step 3: Scaling Comparison and Contradiction.}
-Because $u$ is a viscosity supersolution, the differential inequality must hold at $x_R$. Substituting our derived bounds into $-\Delta_\infty u(x_R) + c|\nabla u(x_R)|^q \ge \lambda |x_R|^a u(x_R)^p$ yields:
-\[
-\lambda R^a u(x_R)^p \le C_1 R^{-4} u(x_R)^3 + C_2 R^{-q} u(x_R)^q
-\]
-Assume the solution decays asymptotically as $u(x_R) \sim R^{-\beta}$. Substituting this polynomial decay into the inequality produces:
-\[
-R^{a - p\beta} \le C_1 R^{-4 - 3\beta} + C_2 R^{-q - q\beta}
-\]
-For this inequality to be valid as $R \to \infty$, the power on the left side must be strictly less than or equal to the maximum of the powers on the right side:
-\[
-a - p\beta \le \max(-4 - 3\beta, -q - q\beta)
-\]
-When $q > 3$, the exponent $-q - q\beta$ strictly dominates $-4 - 3\beta$ for any reasonably decaying solution. The governing condition thus becomes $a - p\beta \le -q - q\beta$, which simplifies to:
-\[
-\beta(q - p) \le -q - a
-\]
-If we are in the regime where $p < q$ (meaning the gradient absorption dominates the reaction term), the left side $\beta(q - p)$ is strictly positive (since $\beta > 0$). However, for sufficiently large $q$ (or standard $a \ge 0$), the right side $-q - a$ is strictly negative. A positive quantity cannot be less than a negative quantity. This forces a contradiction as $R \to \infty$, implying no such maximum point $x_R$ can exist where $u$ is positive, thereby proving that $u \equiv 0$.
-\end{proof}
-
-\subsection{Proof of Theorem 3.3: Gradient Source Extrema Test}
-
-\begin{proof}
-For the equation $\Delta_\infty u + |c| |\nabla u|^q + \lambda |x|^a u^p \le 0$ where $u \ge 0$, the proof is exceptionally direct and relies purely on the foundational topology of continuous functions. 
-
-Suppose $u \not\equiv 0$. Because $u$ is non-negative and we assume it decays to zero at spatial infinity ($\lim_{|x| \to \infty} u(x) = 0$), $u$ must attain a strictly positive global maximum at some point $x_m \in \mathbb{R}^n$. 
-At a local maximum $x_m$, the definition of a viscosity subsolution dictates that for any smooth $C^2$ function touching $u$ from above, $\nabla \psi(x_m) = 0$ and the Hessian $D^2 \psi(x_m)$ is negative semi-definite [9]. 
-Consequently, the infinity Laplacian evaluates exactly to zero:
-\[
-\Delta_\infty \psi(x_m) = \langle D^2 \psi(x_m) \nabla \psi(x_m), \nabla \psi(x_m) \rangle = \langle D^2 \psi(x_m) \cdot 0, 0 \rangle = 0
-\]
-Similarly, the gradient source term vanishes: $|c| |\nabla \psi(x_m)|^q = 0$.
-We evaluate the viscosity inequality at this maximum point $x_m$:
-\[
-0 + 0 + \lambda |x_m|^a u(x_m)^p \le 0
-\]
-Because $\lambda > 0$, $|x_m|^a > 0$ (assuming $x_m \neq 0$, which holds via shifting arguments if necessary), and $u(x_m)^p > 0$ (since it is a positive global maximum), we are left with a strictly positive number being less than or equal to zero. This is a terminal contradiction. Therefore, $u$ cannot possess a positive global maximum, meaning the only bounded non-negative solution decaying to zero is $u \equiv 0$.
-\end{proof}
-
-\section{Extensions and Generalizations}
-
-The rigorous mathematical techniques developed for the unnormalized infinity Laplacian coupled with polynomial Hardy-Hénon terms can be naturally generalized to broader classes of singular weights and nonlinearities [11].
-
-\subsection{The Matukuma-Type Equation}
-
-The Matukuma equation is a specialized variant of the Hardy-Hénon problem traditionally used in astrophysics to model the density of globular star clusters, characterized by a smooth, bounded weight function $w(x) = (1 + |x|^2)^{-\alpha}$ [1]. 
-Applying our analytical framework, the corresponding infinity elliptic equation becomes:
-\[
--\Delta_\infty u + c|\nabla u|^q = \frac{\lambda}{(1+|x|^2)^\alpha} u^p
-\]
-Because the Matukuma weight behaves asymptotically as $|x|^{-2\alpha}$ as $|x| \to \infty$, we can map this directly to our Hardy weight parameter $a = -2\alpha$. The critical exponent scaling relation $3\theta + 4 = -a + p\theta$ translates to $3\theta + 4 = 2\alpha + p\theta$. The nonexistence threshold shifts accordingly, proving that Liouville collapse occurs when $p < 3 + \frac{4 - 2\alpha}{\beta}$, matching our previously derived conditions while avoiding the geometric singularity at the origin $|x|=0$.
-
-\subsection{Exponential Gel'fand-Liouville Nonlinearities}
-
-When the polynomial reaction term is replaced by exponential growth, $f(x,u) = \lambda e^u$, the system enters a strongly supercritical regime [11]. 
-\[
--\Delta_\infty u = \lambda |x|^a e^u
-\]
-For the infinity Laplacian, polynomial scale-invariance is replaced by logarithmic scale-invariance. If we posit radial solutions of the form $v(r) = - \beta \ln r$ and substitute this into the one-dimensional radial infinity Laplacian derived in Section 4.1:
-\[
-v'(r) = -\frac{\beta}{r}, \quad v''(r) = \frac{\beta}{r^2}
-\]
-\[
--\Delta_\infty v = -(v')^2 v'' = - \left(-\frac{\beta}{r}\right)^2 \left(\frac{\beta}{r^2}\right) = - \frac{\beta^3}{r^4}
-\]
-The right-hand side source evaluates to $\lambda r^a e^{-\beta \ln r} = \lambda r^{a-\beta}$.
-Equating the spatial powers requires $-4 = a - \beta$, giving $\beta = a+4$. However, just as in the polynomial case, $-\Delta_\infty v = -\beta^3 / r^4$, which is strictly negative for $\beta > 0$. The source term $\lambda r^a e^u$ is strictly positive. Consequently, there are \textbf{no entire radial solutions} to the exponential Hardy-Hénon infinity Laplace equation for any $a \in \mathbb{R}$, demonstrating the immense rigidity of the infinity Laplacian operator under exponential forcing.
-
-\section{Interdisciplinary Applications: Theoretical Connections to Robust Machine Learning}
-
-While Liouville-type results for the infinity Laplacian are inherently entrenched in the pure mathematical theory of fully nonlinear PDEs, they share a profound, rigorous structural connection with applied computational sciences---specifically the theory of distributionally robust machine learning and adversarial neural network training [15, 16].
-
-\subsection{Adversarial Robustness as a Lipschitz Constrained Problem}
-
-In the context of modern artificial intelligence, deep neural networks are notoriously vulnerable to adversarial attacks [24]. An adversarial attack occurs when a minuscule, visually imperceptible mathematical perturbation $\epsilon$ is added to an input datum $x$ (such as an image), causing the neural network function $f(x)$ to drastically misclassify the data. 
-
-To systematically immunize neural networks against these perturbations, the network's mapping $f(x)$ must be topologically constrained such that tiny variations in the input space cannot produce massive shifts in the output space. Mathematically, this is strictly equivalent to bounding the global Lipschitz constant $L$ of the network [25]:
-\[
-\| f(x) - f(y) \| \le L \| x - y \|
-\]
-For continuously differentiable models, this necessitates strictly bounding the $L^\infty$ norm of the gradient matrix:
-\[
-\| \nabla f(x) \|_\infty \le L
-\]
-
-\subsection{The Infinity Laplacian as the Ultimate Lipschitz Regularizer}
-
-In standard variational calculus, minimizing the $L^2$ norm of a gradient field ($\int |\nabla u|^2$) yields the classical Laplace equation $\Delta u = 0$. Minimizing the general $L^p$ norm yields the $p$-Laplacian $\Delta_p u = 0$. 
-
-If we take the limiting case as $p \to \infty$, we seek to globally minimize the $L^\infty$ norm of the gradient---precisely the definition of minimizing the Lipschitz constant $L$ [26]. The Euler-Lagrange PDE corresponding to this absolutely minimal Lipschitz extension (AMLE) is exactly the infinity Laplacian:
-\[
-\Delta_\infty f = 0
-\]
-Therefore, training a neural network to achieve absolute maximum adversarial robustness (enforcing a minimal, uniform Lipschitz bound across the entire continuous data manifold) is theoretically homologous to regularizing the neural network's loss landscape so that the network mapping $f(x)$ approximates an infinity-harmonic function [15, 16, 17, 27].
-
-\subsection{Mapping the PDE Gradient Penalty to ML Regularization}
-
-The specific equation studied in this report, $-\Delta_\infty u + c|\nabla u|^q = \lambda |x|^a u^p$, provides a direct theoretical analog to specific loss function architectures used in machine learning. 
-
-In adversarial training paradigms (such as Projected Gradient Descent or Fast Gradient Sign Methods), practitioners frequently append explicit gradient penalty regularizers to the loss function to forcefully smooth the decision boundaries [28, 29]. A generic regularized loss function takes the form:
-\[
-\mathcal{L}_{total}(f) = \mathbb{E} [\text{Fidelity}(f(x), y)] + c \mathbb{E} [\| \nabla f(x) \|^q]
-\]
-\begin{itemize}
-    \item The \textbf{Fidelity Term} (e.g., cross-entropy) maps conceptually to our Hardy-Hénon reaction term $|x|^a u^p$, pushing the function to grow and fit the spatial data distribution.
-    \item The \textbf{Regularizer Term} maps exactly to the Hamiltonian $c|\nabla u|^q$, aggressively penalizing steep gradients [30, 31].
-\end{itemize}
-
-Our PDE analysis---specifically the Gradient Domination Theorem (Theorem 3.2)---yields a deep, quantitative insight into this ML paradigm. We rigorously proved that when the gradient penalty exponent $q$ crosses a critical threshold ($q_c = 3$ for the unnormalized operator geometry), the gradient penalty term fundamentally dominates the diffusion/fidelity geometry of the space at infinity. If $q$ is too large, the only mathematically admissible state for the system is total collapse to the trivial solution $u \equiv 0$.
-
-In machine learning nomenclature, this PDE result represents a theoretical proof of \textbf{``model collapse.''} If an adversarial gradient regularizer is applied with an exponent or magnitude that is too aggressive relative to the network's capacity (approximating $q > 3$), the regularization constraints overpower the fidelity to the training data. The network is forced to ignore the spatial data distribution entirely, collapsing into a trivial, flat, non-predictive model. Thus, establishing exact critical exponents like $p^*(n,a)$ and gradient thresholds $q^*$ in PDE theory provides rigorous mathematical bounds on how aggressively deep learning systems can be regularized before structural collapse becomes inevitable [32].
-
+% =========================
 \section{Conclusion}
 
-This report presents an exhaustive investigation into the Liouville-type nonexistence properties governing infinity elliptic equations subject to both gradient dependencies and Hardy-Hénon singular/growth weights. 
+We established Liouville-type nonexistence results for infinity elliptic equations with gradient and weighted nonlinearities, identifying critical thresholds that govern solution behavior.
 
-By analyzing the unnormalized infinity Laplacian within the rigorous framework of viscosity solutions, we identified foundational scaling symmetries revealing that $p = 3$ functions as the critical topological division for scale-invariant decay, independent of spatial dimension. We established unequivocally that for $p \le 3$, non-negative viscosity solutions are algebraically impossible, collapsing to the trivial state $u \equiv 0$. Furthermore, we mapped the competing influence of the gradient Hamiltonian $H(u, \nabla u) = c|\nabla u|^q$, proving the existence of a sharp phase transition at $q=3$; above this threshold, the gradient penalty dictates the far-field asymptotics, forcing total nonexistence regardless of the spatial diffusion mechanics.
+Future work includes extensions to parabolic models and more general nonlinear structures.
 
-Finally, we established a robust theoretical bridge connecting the highly abstract non-divergence geometry of the infinity Laplacian directly to applied distributionally robust machine learning. We mathematically demonstrated that the search for optimally resilient, adversarially robust neural networks via gradient constraints is fundamentally governed by the same functional analytic restrictions---and Liouville nonexistence collapse phenomena---that define Absolute Minimizing Lipschitz Extensions. 
-
-\subsection{Open Problems}
-
-While this research solidifies the global behavior of positive entire solutions, several pressing mathematical inquiries remain open:
-\begin{enumerate}
-    \item \textbf{Sign-Changing (Nodal) Solutions:} The barrier constructions and Strong Maximum Principles utilized here rely heavily on the non-negativity of $u$. The classification of sign-changing (nodal) viscosity solutions for the infinity Laplacian with Hardy-Hénon weights remains a highly non-trivial, unsolved challenge [2].
-    \item \textbf{Anisotropic Singularities:} Expanding the spatial weight function from a purely radial parameter $|x|^a$ to a fully anisotropic or matrix-weighted potential $w(x)$ could reveal new dimensional dependencies and critical exponents linked to the specific directional degenerate axes of the Hessian $D^2u$.
-\end{enumerate}
-
-\begin{thebibliography}{99}
-
-\bibitem[1]{gidas1981}
-Gidas, B., \& Spruck, J. (1981). Global and local behavior of positive solutions of nonlinear elliptic equations. \textit{Communications on Pure and Applied Mathematics}, 34(4), 525--598.
-
-\bibitem[2]{le2025}
-Le, D. H. T., \& Le, P. (2025). Liouville theorems for p-Laplace equations with critical Hardy-Hénon exponents. \textit{Comptes Rendus Mathématique}.
-
-\bibitem[5]{aronsson1967}
-Aronsson, G. (1967). Extension of functions satisfying Lipschitz conditions. \textit{Arkiv för Matematik}, 6(6), 551--561.
-
-\bibitem[6]{khuu2025}
-Khuu, T.-D., Huynh, T.-H., \& Vo, H.-H. (2025). Liouville-type results for infinity elliptic equations involving gradient and Hardy-Hénon nonlinearities. \textit{arXiv preprint arXiv:2511.16116}.
-
-\bibitem[7]{crandall1992}
-Crandall, M. G., Ishii, H., \& Lions, P.-L. (1992). User's guide to viscosity solutions of second order partial differential equations. \textit{Bulletin of the American Mathematical Society}, 27(1), 1--67.
-
-\bibitem[8]{crandall2001}
-Crandall, M. G., Evans, L. C., \& Gariepy, R. F. (2001). Optimal Lipschitz extensions and the infinity Laplacian. \textit{Calculus of Variations and Partial Differential Equations}, 13(2), 123--139.
-
-\bibitem[9]{biswas2023}
-Biswas, A., \& Vo, H.-H. (2023). Liouville theorems for infinity Laplacian with gradient and KPP type equation. \textit{Vietnam Institute for Advanced Study in Mathematics (VIASM) Proceedings}.
-
-\bibitem[10]{brasco2014}
-Brasco, L., Lindgren, E., \& Parini, E. (2014). The fractional Cheeger problem. \textit{Interfaces and Free Boundaries}.
-
-\bibitem[13]{dambrosio2012}
-D'Ambrosio, L. (2012). A new critical curve for a class of quasilinear elliptic systems. \textit{Advances in Mathematics}.
-
-\bibitem[15]{gao2022}
-Gao, R., Chen, X., \& Kleywegt, A. J. (2022). Wasserstein Distributionally Robust Optimization and Variation Regularization. \textit{Operations Research}.
-
-\bibitem[16]{finlay2018}
-Finlay, C., \& Oberman, A. M. (2018). Lipschitz regularized deep neural networks generalize and are adversarially robust. \textit{arXiv preprint arXiv:1808.09540}.
-
-\bibitem[17]{roith2023}
-Roith, T., \& Bungert, L. (2023). Continuum limit of Lipschitz learning on graphs. \textit{Foundations of Computational Mathematics}, 23(2), 1--39.
-
-\end{thebibliography}
+% =========================
+\bibliographystyle{unsrt}
+\bibliography{paper/references}
 
 \end{document}
