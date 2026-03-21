@@ -120,7 +120,11 @@ We extend these to a **fully nonlinear, non-divergence setting** with gradient e
 The LaTeX source is included for reproducibility.
 
 ## 📊 Presentation
-[View Slides](./slides/liouville_infinity_equations_presentation.pdf)
+
+🎥 **Slides:**  
+[View Slides](./slides/liouville_infinity_pde_slides.pdf)
+
+The presentation summarizes the main ideas, methods, and results of the paper.
 
 ---
 
