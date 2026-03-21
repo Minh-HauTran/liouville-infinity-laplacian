@@ -66,7 +66,7 @@ Top project among 20+ research teams
 
 ## 📄 Paper
 
-📥 **Full manuscript:** [paper](Liouville_type_Results_for_Infinity_Elliptic_Equations_with_Gradient_and_Hardy_Hénon_Nonlinearities.pdf)
+📥 **Full manuscript:** [download PDF](Liouville_type_Results_for_Infinity_Elliptic_Equations_with_Gradient_and_Hardy_Hénon_Nonlinearities.pdf)
 
 The LaTeX source is included for reproducibility and further development.
 
