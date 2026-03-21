@@ -1,107 +1,146 @@
-# Sketch Proofs
+# Sketch of the Main Arguments
 
-This note outlines the main ideas behind the proofs in the paper.
-
----
-
-## 1. Strategy for Liouville-Type Nonexistence
-
-We aim to show that any global solution must be trivial under certain conditions.
-
-The strategy consists of:
-
-1. Reduction to radial setting  
-2. Scaling analysis  
-3. Contradiction argument  
+This note outlines the structural strategy behind the Liouville-type nonexistence results.
 
 ---
 
-## 2. Radial Reduction
+## 1. General Strategy
 
-Let:
+We aim to prove that any non-negative global solution must be trivial.
 
-u(x) = v(r),  r = |x|
+The approach combines:
+
+- Scaling analysis  
+- Radial reduction  
+- Viscosity comparison arguments  
+- Contradiction via asymptotic profiles  
+
+---
+
+## 2. Scaling Analysis
+
+Consider the equation:
+
+-Δ∞u = λ |x|^a u^p
+
+Introduce the scaling:
+
+u_τ(x) = τ^θ u(τx)
 
 Then:
 
-Δ∞u = (v')² v''
+Δ∞u_τ = τ^{3θ + 4} Δ∞u  
+|x|^a u_τ^p = τ^{-a + pθ} |x|^a u^p
 
-This reduces the PDE to a one-dimensional nonlinear ODE.
+Balancing invariance gives:
+
+3θ + 4 = -a + pθ  
+⇒ θ(p - 3) = a + 4
+
+For decaying solutions, θ < 0, which requires:
+
+p > 3
 
 ---
 
-## 3. Scaling Argument
+## 3. Radial Reduction
 
-Assume:
+For radial functions:
+
+u(x) = v(r), r = |x|
+
+the infinity Laplacian simplifies to:
+
+Δ∞u = (v')² v''
+
+Thus, the PDE reduces to the ODE:
+
+-(v')² v'' = λ r^a v^p
+
+---
+
+## 4. Asymptotic Contradiction
+
+Assume a decaying profile:
 
 v(r) ≈ r^{-β}
 
 Then:
 
-Δ∞u ≈ r^{-3β - 2}  
-|x|^a u^p ≈ r^{a - pβ}
+-Δ∞v ≈ -r^{-3β - 4} < 0  
+λ r^a v^p ≈ r^{a - pβ} > 0
 
-Balancing exponents leads to:
+This yields a contradiction:
 
-β(p - 3) = a + 2
+negative ≥ positive
 
-This identifies the critical role of p = 3.
-
----
-
-## 4. Contradiction Argument
-
-Assume a nontrivial positive solution exists.
-
-Using the scaling relation:
-
-- If p ≤ 3, no consistent decay is possible  
-- This contradicts the assumption of a global solution  
-
-Thus:
-
-> Only the trivial solution can exist.
+Hence, no decaying positive solution exists.
 
 ---
 
-## 5. Gradient Domination
+## 5. Extension to General Solutions
+
+To extend beyond radial symmetry, define:
+
+m(r) = inf_{|x| = r} u(x)
+
+Using viscosity theory:
+
+- m(r) inherits supersolution properties  
+- m satisfies a radial inequality  
+
+Since radial supersolutions cannot exist, general solutions must also be trivial.
+
+---
+
+## 6. Gradient-Dominated Regime
 
 Consider:
 
-H(x,u,∇u) ≈ |∇u|^q
+-Δ∞u + c|∇u|^q ≥ λ |x|^a u^p
 
-Compare:
+Using cutoff functions and viscosity test arguments:
 
-Δ∞u ≈ r^{-3β - 2}  
-|∇u|^q ≈ r^{-q(β + 1)}
+- Diffusion scales as: R^{-4} u³  
+- Gradient term scales as: R^{-q} u^q  
 
-If q > 3:
+For q > 3:
 
-- Gradient term dominates  
-- Diffusion becomes negligible  
+- Gradient dominates diffusion  
+- Inequality cannot hold asymptotically  
 
-This changes the qualitative behavior of solutions.
+This forces:
+
+u ≡ 0
 
 ---
 
-## 6. Limitations
+## 7. Maximum Principle Argument (Gradient Source Case)
 
-These arguments are formal and rely on scaling heuristics.
+For:
 
-A fully rigorous treatment requires:
+Δ∞u + |∇u|^q + |x|^a u^p ≤ 0
+
+At a maximum point:
+
+- ∇u = 0  
+- Δ∞u = 0  
+
+Thus:
+
+|x|^a u^p ≤ 0
+
+which is impossible unless u ≡ 0.
+
+---
+
+## 8. Remarks on Rigor
+
+The full proofs require:
 
 - Viscosity solution framework  
 - Comparison principles  
-- Careful justification of asymptotic behavior  
+- Stability under infimum operations  
+- Careful handling of degeneracy  
 
----
-
-## 7. Conclusion
-
-The proofs rely on:
-
-- Structural properties of the infinity Laplacian  
-- Scaling arguments  
-- Reduction to simpler models  
-
-These ideas provide insight into the behavior of solutions in highly nonlinear and degenerate PDEs.
+This sketch highlights only the structural mechanism behind the results.
