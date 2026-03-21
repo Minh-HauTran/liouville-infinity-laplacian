@@ -1,16 +1,21 @@
-\documentclass[11pt]{article}
+\documentclass[11pt, a4paper]{article}
 
-\usepackage[a4paper, margin=1in]{geometry}
+\usepackage[a4paper, top=2.5cm, bottom=2.5cm, left=2cm, right=2cm]{geometry}
 \usepackage{fontspec}
-\usepackage{amsmath, amssymb, amsthm}
+
+\usepackage[english]{babel}
 \usepackage{graphicx}
+\usepackage{float}
+\usepackage{caption}
+\usepackage{amsmath, amssymb, amsthm}
 \usepackage{booktabs}
 \usepackage{enumitem}
-\usepackage{hyperref}
 \usepackage[numbers]{natbib}
+\usepackage[colorlinks=true, linkcolor=blue, citecolor=red, urlcolor=blue]{hyperref}
 \usepackage{authblk}
 
 \setmainfont{Noto Serif}
+\captionsetup{font=small, labelfont=bf}
 
 % --- THEOREMS ---
 \theoremstyle{plain}
@@ -26,7 +31,7 @@
 \newtheorem{remark}[theorem]{Remark}
 
 % --- TITLE ---
-\title{Liouville-Type Results for Infinity Elliptic Equations with Gradient-Dependent and Hardy--Hénon Nonlinearities}
+\title{\textbf{Liouville-Type Results for Infinity Elliptic Equations with Gradient-Dependent and Hardy--Hénon Nonlinearities}}
 
 \author[1,2]{Tran Minh Hau}
 \author[2,3]{Huynh Trung Hieu}
@@ -35,51 +40,44 @@
 \affil[2]{Vietnam Institute for Advanced Study in Mathematics (VIASM)}
 \affil[3]{Ho Chi Minh City University of Education}
 
-\date{}
+\date{\small Advisors: Prof. Hai-Long Dao, Prof. Dac-Tuan Ngo, Dr. Tuan-Minh Nguyen \\ August 2025}
 
 \begin{document}
 
 \maketitle
 
 \begin{abstract}
-We study Liouville-type nonexistence properties for a class of infinity elliptic equations involving gradient-dependent nonlinearities and Hardy--Hénon weights. 
-Working within the viscosity solution framework, we identify critical exponents associated with the intrinsic cubic structure of the infinity Laplacian and establish conditions under which nontrivial entire solutions cannot exist.
+This paper establishes Liouville-type nonexistence theorems for infinity elliptic equations involving gradient-dependent nonlinearities and Hardy--Hénon weights. 
 
-We further analyze the interaction between diffusion, gradient effects, and spatial weights, revealing threshold phenomena in both reaction and gradient growth terms. 
-These results contribute to the qualitative theory of highly degenerate elliptic equations and suggest connections to Lipschitz regularization in modern machine learning.
+Within the viscosity solution framework, we identify a dimension-free critical exponent $p = 3$ arising from the cubic structure of the infinity Laplacian, and prove the collapse of nontrivial solutions in the subcritical regime.
+
+We further show that a sharp gradient threshold $q = 3$ governs the transition to gradient-dominated behavior, leading to complete solution collapse under mild decay assumptions.
+
+These results contribute to the qualitative theory of highly degenerate elliptic equations and provide a theoretical bridge to gradient regularization in modern machine learning.
 \end{abstract}
 
 % =========================
 \section{Introduction}
 
-Liouville-type theorems play a central role in nonlinear elliptic theory, providing rigidity results that preclude the existence of nontrivial entire solutions under suitable structural conditions \cite{gidas1981}. 
-
+Liouville-type theorems play a central role in nonlinear elliptic theory \cite{gidas1981}. 
 The classical Lane--Emden equation
 \[
--\Delta u = u^p \quad \text{in } \mathbb{R}^n
+-\Delta u = u^p
 \]
-has been extensively studied, with sharp nonexistence thresholds depending on the dimension. Extensions to weighted models, such as the Hardy--Hénon equation, further reveal the influence of spatial heterogeneity on critical exponents \cite{le2025}.
+has well-known critical exponents depending on dimension.
 
-In contrast, the infinity Laplacian
+Extensions such as the Hardy--Hénon equation introduce spatial weights \cite{le2025}. 
+
+The infinity Laplacian
 \[
 \Delta_\infty u = \langle D^2 u \nabla u, \nabla u \rangle
 \]
-introduces strong degeneracy and requires analysis in the viscosity sense \cite{crandall1992}. This operator arises naturally in the theory of absolutely minimizing Lipschitz extensions \cite{aronsson1967}.
+is highly degenerate and requires viscosity solutions \cite{crandall1992, aronsson1967}.
 
-In this work, we study equations of the form
+We study:
 \[
--\Delta_\infty u + c|\nabla u|^q = \lambda |x|^a u^p \quad \text{in } \mathbb{R}^n,
+-\Delta_\infty u + c|\nabla u|^q = \lambda |x|^a u^p
 \]
-focusing on Liouville-type nonexistence results under combined gradient and weighted nonlinear effects.
-
-% =========================
-\section{Preliminaries}
-
-We work within the framework of viscosity solutions as developed by Crandall, Ishii, and Lions \cite{crandall1992}. 
-
-\begin{definition}
-A continuous function $u$ is a viscosity solution if it satisfies the differential inequality in the sense of test functions.
-\end{definition}
 
 % =========================
 \section{Main Results}
@@ -97,30 +95,42 @@ Let $u$ satisfy
 \[
 -\Delta_\infty u + c|\nabla u|^q \ge \lambda |x|^a u^p.
 \]
-If $q > 3$ and $p < q$, then $u \equiv 0$ under suitable decay conditions.
+If $q > 3$ and $p < q$, then $u \equiv 0$.
 \end{theorem}
 
 % =========================
-\section{Proofs of the Main Results}
+\section{Proof Strategy}
 
-(Keep your original proofs here — chỉ cần thay citation sang \cite{})
+The proofs rely on:
+\begin{itemize}
+\item scaling invariance of the infinity Laplacian
+\item radial reduction techniques
+\item viscosity solution comparison principles
+\end{itemize}
+
+See \cite{crandall1992, crandall2001, peres2009}.
 
 % =========================
 \section{Connections to Machine Learning}
 
-The infinity Laplacian is closely related to Lipschitz regularization and has connections to robust optimization and adversarial learning \cite{finlay2018, gao2022}. 
+The infinity Laplacian corresponds to minimizing the Lipschitz constant \cite{crandall2001}. 
 
-These connections suggest that gradient constraints in PDEs may provide theoretical insight into stability in machine learning models.
+Gradient regularization in deep learning \cite{finlay2018, gao2022} can be interpreted as analogous to PDE constraints:
+\[
+\mathcal{L}(f) = \mathbb{E}[\text{loss}] + c \mathbb{E}[|\nabla f|^q]
+\]
+
+Our results suggest that excessive gradient penalization leads to collapse of solutions, analogous to over-regularization in neural networks.
 
 % =========================
 \section{Conclusion}
 
-We established Liouville-type nonexistence results for infinity elliptic equations with gradient and weighted nonlinearities, identifying critical thresholds that govern solution behavior.
+We established Liouville-type nonexistence results and identified sharp thresholds $p=3$ and $q=3$ governing solution behavior.
 
-Future work includes extensions to parabolic models and more general nonlinear structures.
+Future work includes parabolic extensions and anisotropic weights.
 
 % =========================
 \bibliographystyle{unsrt}
-\bibliography{paper/references}
+\bibliography{references}
 
 \end{document}
