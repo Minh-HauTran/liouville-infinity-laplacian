@@ -66,7 +66,7 @@ Top project among 20+ research teams
 
 ## 📄 Paper
 
-📥 **Full manuscript:** [Download PDF](https://raw.githubusercontent.com/USERNAME/REPO/main/paper/liouville_infinity_elliptic_equations.pdf)
+📥 **Full manuscript:** [Download PDF](paper/liouville_infinity_elliptic_equations.pdf)
 
 The LaTeX source is included for reproducibility and further development.
 
