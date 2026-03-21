@@ -119,6 +119,9 @@ We extend these to a **fully nonlinear, non-divergence setting** with gradient e
 
 The LaTeX source is included for reproducibility.
 
+## 📊 Presentation
+[View Slides](./slides/liouville_infinity_equations_presentation.pdf)
+
 ---
 
 ## 🧩 Conceptual Structure
