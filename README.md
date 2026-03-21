@@ -152,3 +152,15 @@ University of Information Technology – VNU-HCM
 ## 📬 Contact
 
 📧 hautm.cs@gmail.com
+
+---
+## 📊 Illustration
+
+![Diagram](figures/diagram.png)
+
+---
+
+## 🧠 Research Notes
+
+- [Intuition](notes/intuition.md)
+- [Sketch Proofs](notes/sketch_proofs.md)
