@@ -154,9 +154,11 @@ University of Information Technology – VNU-HCM
 📧 hautm.cs@gmail.com
 
 ---
-## 📊 Illustration
+## 📊 Conceptual Diagram
 
-![Diagram](figures/diagram.png)
+![PDE Structure](figures/pde-structure-diagram.png)
+
+*Interaction between diffusion, gradient nonlinearity, and Hardy–Hénon weight leading to Liouville-type nonexistence.*
 
 ---
 
