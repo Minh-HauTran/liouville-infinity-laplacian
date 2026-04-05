@@ -22,6 +22,7 @@ def phase_study(q_values):
     results = {}
 
     for q in q_values:
+        print(f"Running q={q}")
         model, x, _ = train_pinn(q)
 
         with torch.no_grad():
@@ -37,19 +38,35 @@ if __name__ == "__main__":
     results = phase_study(q_values)
 
     os.makedirs("experiments/phase_transition", exist_ok=True)
+    os.makedirs("experiments/scaling", exist_ok=True)
 
+    # -------- Phase Plot --------
     plt.figure(figsize=(12,5))
 
     for q, (x, u) in results.items():
         plt.plot(x, u, label=f"q={q}")
 
     plt.legend()
-    plt.title("Phase Transition (q)")
+    plt.title("Solution Behavior vs q (Phase Transition)")
+    plt.xlabel("x")
+    plt.ylabel("u(x)")
 
     plt.savefig("experiments/phase_transition/q_plot.png", dpi=300)
     plt.show()
 
+    # -------- Scaling --------
+    betas = []
 
     for q, (x, u) in results.items():
         beta = estimate_decay(x, u)
+        betas.append(-beta)
         print(f"q={q}, beta ≈ {-beta:.3f}")
+
+    plt.figure()
+    plt.plot(q_values, betas, marker='o')
+    plt.title("Scaling Exponent vs q")
+    plt.xlabel("q")
+    plt.ylabel("beta")
+
+    plt.savefig("experiments/scaling/beta_plot.png", dpi=300)
+    plt.show()
