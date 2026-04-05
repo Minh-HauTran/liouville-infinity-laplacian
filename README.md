@@ -128,6 +128,8 @@ To complement the theoretical analysis, we implement a **Physics-Informed Neural
 pip install -r requirements.txt
 python src/experiment.py
 
+```
+
 ---
 
 ## 📚 Relation to Existing Work
