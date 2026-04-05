@@ -122,8 +122,6 @@ To complement the theoretical analysis, we implement a **Physics-Informed Neural
 ![Phase Transition](experiments/phase_transition/q_plot.png)
 ![Scaling](experiments/scaling/beta_plot.png)
 
----
-
 ### Run the Code
 
 ```bash
