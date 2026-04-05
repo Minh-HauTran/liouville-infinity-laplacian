@@ -49,7 +49,7 @@ if __name__ == "__main__":
     plt.savefig("experiments/phase_transition/q_plot.png", dpi=300)
     plt.show()
 
-    # 🔥 scaling verification
+
     for q, (x, u) in results.items():
         beta = estimate_decay(x, u)
         print(f"q={q}, beta ≈ {-beta:.3f}")
