@@ -109,27 +109,32 @@ To complement the theoretical analysis, we implement a **Physics-Informed Neural
 ### Key Observations
 
 - **Phase Transition at q = 3**  
-  Solutions exhibit a clear transition from diffusion-dominated to gradient-dominated regimes.
+  The numerical solutions exhibit a clear transition from diffusion-dominated to gradient-dominated regimes as q increases.
 
-- **Model Collapse for Large q**  
-  When q > 3, the solution collapses toward trivial behavior, consistent with the Liouville-type nonexistence result.
+- **Near-Trivial Collapse for Large q**  
+  For q > 3, solutions progressively flatten and approach near-trivial states, consistent with the Liouville-type nonexistence mechanism.
 
 - **Scaling Behavior**  
-  Numerical estimates of the decay exponent β align with theoretical scaling laws.
+  Numerical estimates of the decay exponent β are broadly consistent with the theoretical scaling predictions derived from the cubic structure of the infinity Laplacian.
+
+---
 
 ### Example Results
 
-![Phase Transition](experiments/phase_transition/q_plot.png)
-![Scaling](experiments/scaling/beta_plot.png)
+#### Phase Transition
+![Phase Transition](./experiments/phase_transition/q_plot.png)
+
+#### Norm Convergence
+![Norm](./experiments/scaling/norm_plot.png)
+
+---
 
 ### Run the Code
 
 ```bash
 pip install -r requirements.txt
 python src/experiment.py
-
-```
-
+```bash
 ---
 
 ## 📚 Relation to Existing Work
