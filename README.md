@@ -100,6 +100,37 @@ Key questions:
 
 ---
 
+## 🔬 Numerical Verification (PINN)
+
+To complement the theoretical analysis, we implement a **Physics-Informed Neural Network (PINN)** to approximate solutions of the PDE:
+
+-Δ∞u + c|∇u|^q = λ|x|^a u^p
+
+### Key Observations
+
+- **Phase Transition at q = 3**  
+  Solutions exhibit a clear transition from diffusion-dominated to gradient-dominated regimes.
+
+- **Model Collapse for Large q**  
+  When q > 3, the solution collapses toward trivial behavior, consistent with the Liouville-type nonexistence result.
+
+- **Scaling Behavior**  
+  Numerical estimates of the decay exponent β align with theoretical scaling laws.
+
+### Example Results
+
+![Phase Transition](experiments/phase_transition/q_plot.png)
+![Scaling](experiments/scaling/beta_plot.png)
+
+---
+
+### Run the Code
+
+```bash
+pip install -r requirements.txt
+python src/experiment.py
+---
+
 ## 📚 Relation to Existing Work
 
 This work builds upon:
