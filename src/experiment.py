@@ -1,4 +1,4 @@
-from src.train import train_pinn
+from train import train_pinn
 import matplotlib.pyplot as plt
 import torch
 import os
