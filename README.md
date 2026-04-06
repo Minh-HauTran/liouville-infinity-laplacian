@@ -102,34 +102,92 @@ Key questions:
 
 ## 🔬 Numerical Verification (PINN)
 
-To complement the theoretical analysis, we implement a **Physics-Informed Neural Network (PINN)** to approximate solutions of the PDE:
+To complement the theoretical Liouville analysis, we implement a **Physics-Informed Neural Network (PINN)** to approximate viscosity solutions of the nonlinear PDE:
 
--Δ∞u + c|∇u|^q = λ|x|^a u^p
+\[
+- \Delta_{\infty} u + c |\nabla u|^q = \lambda |x|^a u^p \quad \text{in } \mathbb{R}^n
+\]
 
-### Key Observations
-
-- **Phase Transition at q = 3**  
-  The numerical solutions exhibit a clear transition from diffusion-dominated to gradient-dominated regimes as q increases.
-
-- **Near-Trivial Collapse for Large q**  
-  For q > 3, solutions progressively flatten and approach near-trivial states, consistent with the Liouville-type nonexistence mechanism.
-
-- **Scaling Behavior**  
-  Numerical estimates of the decay exponent β are broadly consistent with the theoretical scaling predictions derived from the cubic structure of the infinity Laplacian.
+Unlike data-driven regression, the model is trained by minimizing the **PDE residual**, allowing it to recover solution behavior directly from the governing equation.
 
 ---
 
-### Example Results
+### ⚙️ Methodology
 
-#### Phase Transition
+- Neural network: fully-connected PINN with positivity constraint \( u = \exp(\cdot) \)
+- Loss function:
+  - PDE residual loss
+  - boundary constraint \( u(0) = 1 \) (to avoid trivial solution)
+- Domain: 1D radial slice \( x \in [-2,2] \)
+- Training: Adam optimizer (3000–4000 epochs)
+
+---
+
+### 📊 Key Numerical Findings
+
+#### **1. Phase Transition at \( q = 3 \)**
+
+The numerical solutions clearly exhibit a structural transition:
+
+- \( q < 3 \): diffusion-dominated regime (smooth, spread-out solutions)
+- \( q \approx 3 \): critical balance
+- \( q > 3 \): gradient-dominated regime (sharper, collapsing profiles)
+
+This aligns precisely with **Theorem 3.3 (Bifurcation of Behavior)** in the paper. :contentReference[oaicite:0]{index=0}
+
+---
+
+#### **2. Gradient-Induced Collapse (Liouville Mechanism)**
+
+For \( q > 3 \), the learned solutions:
+
+- flatten near the boundary
+- concentrate near the origin
+- approach near-trivial states
+
+This numerically confirms the **Liouville-type nonexistence mechanism**, where gradient absorption dominates diffusion.
+
+---
+
+#### **3. Scaling Law Consistency**
+
+We estimate the decay exponent \( \beta \) via:
+
+\[
+u(x) \sim |x|^{-\beta}
+\]
+
+Numerical results show:
+
+- monotonic variation of \( \beta \) with respect to \( q \)
+- qualitative agreement with the theoretical scaling relation:
+\[
+\theta(p - 3) = a + 4
+\]
+
+derived from the cubic homogeneity of the infinity Laplacian.
+
+---
+
+### 📈 Example Results
+
+#### Phase Transition (Solution Profiles)
 ![Phase Transition](./experiments/phase_transition/q_plot.png)
 
-#### Norm Convergence
-![Norm](./experiments/scaling/norm_plot.png)
+> Solutions become increasingly localized as \( q \) increases, illustrating the transition from diffusion to gradient domination.
 
 ---
 
-### Run the Code
+#### Scaling Behavior (Decay Exponent)
+![Scaling](./experiments/scaling/beta_plot.png)
+
+> Estimated decay exponent \( \beta \) varies consistently with theoretical predictions.
+
+---
+
+### ▶️ Reproducibility
+
+Run the full experiment locally:
 
 ```bash
 pip install -r requirements.txt
