@@ -104,9 +104,9 @@ Key questions:
 
 To complement the theoretical Liouville analysis, we implement a **Physics-Informed Neural Network (PINN)** to approximate viscosity solutions of the nonlinear PDE:
 
-\[
+$$
 - \Delta_{\infty} u + c |\nabla u|^q = \lambda |x|^a u^p \quad \text{in } \mathbb{R}^n
-\]
+$$
 
 Unlike data-driven regression, the model is trained by minimizing the **PDE residual**, allowing it to recover solution behavior directly from the governing equation.
 
@@ -114,56 +114,57 @@ Unlike data-driven regression, the model is trained by minimizing the **PDE resi
 
 ### ⚙️ Methodology
 
-- Neural network: fully-connected PINN with positivity constraint \( u = \exp(\cdot) \)
+- Neural network: fully-connected PINN with positivity constraint $u = \exp(\cdot)$  
 - Loss function:
-  - PDE residual loss
-  - boundary constraint \( u(0) = 1 \) (to avoid trivial solution)
-- Domain: 1D radial slice \( x \in [-2,2] \)
+  - PDE residual loss  
+  - boundary constraint $u(0) = 1$ (to avoid trivial solution)  
+- Domain: 1D radial slice $x \in [-2,2]$  
 - Training: Adam optimizer (3000–4000 epochs)
 
 ---
 
 ### 📊 Key Numerical Findings
 
-#### **1. Phase Transition at \( q = 3 \)**
+#### **1. Phase Transition at $q = 3$**
 
 The numerical solutions clearly exhibit a structural transition:
 
-- \( q < 3 \): diffusion-dominated regime (smooth, spread-out solutions)
-- \( q \approx 3 \): critical balance
-- \( q > 3 \): gradient-dominated regime (sharper, collapsing profiles)
+- $q < 3$: diffusion-dominated regime (smooth, spread-out solutions)  
+- $q \approx 3$: critical balance  
+- $q > 3$: gradient-dominated regime (sharper, collapsing profiles)  
 
-This aligns precisely with **Theorem 3.3 (Bifurcation of Behavior)** in the paper. :contentReference[oaicite:0]{index=0}
+This aligns with **Theorem 3.3 (Bifurcation of Behavior)** in the paper.
 
 ---
 
 #### **2. Gradient-Induced Collapse (Liouville Mechanism)**
 
-For \( q > 3 \), the learned solutions:
+For $q > 3$, the learned solutions:
 
-- flatten near the boundary
-- concentrate near the origin
-- approach near-trivial states
+- flatten near the boundary  
+- concentrate near the origin  
+- approach near-trivial states  
 
-This numerically confirms the **Liouville-type nonexistence mechanism**, where gradient absorption dominates diffusion.
+This numerically supports the **Liouville-type nonexistence mechanism**, where gradient absorption dominates diffusion.
 
 ---
 
 #### **3. Scaling Law Consistency**
 
-We estimate the decay exponent \( \beta \) via:
+We estimate the decay exponent $\beta$ via:
 
-\[
+$$
 u(x) \sim |x|^{-\beta}
-\]
+$$
 
 Numerical results show:
 
-- monotonic variation of \( \beta \) with respect to \( q \)
+- monotonic variation of $\beta$ with respect to $q$  
 - qualitative agreement with the theoretical scaling relation:
-\[
+
+$$
 \theta(p - 3) = a + 4
-\]
+$$
 
 derived from the cubic homogeneity of the infinity Laplacian.
 
@@ -174,14 +175,14 @@ derived from the cubic homogeneity of the infinity Laplacian.
 #### Phase Transition (Solution Profiles)
 ![Phase Transition](./experiments/phase_transition/q_plot.png)
 
-> Solutions become increasingly localized as \( q \) increases, illustrating the transition from diffusion to gradient domination.
+> Solutions become increasingly localized as $q$ increases, illustrating the transition from diffusion to gradient domination.
 
 ---
 
 #### Scaling Behavior (Decay Exponent)
 ![Scaling](./experiments/scaling/beta_plot.png)
 
-> Estimated decay exponent \( \beta \) varies consistently with theoretical predictions.
+> Estimated decay exponent $\beta$ varies consistently with theoretical predictions.
 
 ---
 
@@ -192,7 +193,7 @@ Run the full experiment locally:
 ```bash
 pip install -r requirements.txt
 python src/experiment.py
-```bash
+```
 ---
 
 ## 📚 Relation to Existing Work
