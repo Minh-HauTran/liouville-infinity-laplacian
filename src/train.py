@@ -1,7 +1,7 @@
 import torch
 import torch.optim as optim
-from src.pinn_model import PINN
-from src.pde_operator import pde_residual
+from pinn_model import PINN
+from pde_operator import pde_residual
 
 def boundary_loss(model):
     x0 = torch.zeros((1,1))
